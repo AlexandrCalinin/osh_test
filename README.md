@@ -75,13 +75,12 @@ Alembic – миграции базы данных.
 Логи сервиса estate_service записываются в файл estate_service/estate_service.log.
 
 Дополнительные команды
+
 Остановка контейнеров:
-
-bash
-Copiar
 docker compose down
-Запуск контейнеров в фоновом режиме:
 
-bash
-Copiar
+Запуск контейнеров в фоновом режиме:
 docker compose up -d --build
+
+Для удобства можно использовать Taskfile, из которого можно запускаьт команды:
+task <название команды>
