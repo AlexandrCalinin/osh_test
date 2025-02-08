@@ -95,7 +95,7 @@ def delete_instance_db(instance_id: UUID, session: Session, table: Union[Propert
         raise HTTPException(status_code=500, detail=f"Error deleting Instance: {e}")
 
 
-def get_properties_paginated(session: Session, page: int, per_page: int):
+def get_paginated_properties(session: Session, page: int, per_page: int):
     try:
         offset = (page - 1) * per_page
         total = session.query(Property).count()

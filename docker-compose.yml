@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  auth_service:
+    build:
+      context: .
+      dockerfile: auth_service/Dockerfile
+    ports:
+      - "8001:8000"
+    env_file:
+      - .env
+    environment:
+      - ENV=development
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME_AUTH}
+    depends_on:
+      - auth_db
+    volumes:
+      - ./auth_service/app:/app
+
+  auth_db:
+    image: postgres:15
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME_AUTH}
+    ports:
+      - "5433:5432"
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+
+  estate_service:
+    build:
+      context: .
+      dockerfile: estate_service/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - ENV=development
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME_ESTATE}
+    depends_on:
+      - estate_db
+    volumes:
+      - ./estate_service/app:/app
+
+  estate_db:
+    image: postgres:15
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME_ESTATE}
+    ports:
+      - "5434:5432"
+    volumes:
+      - estate_db_data:/var/lib/postgresql/data
+
+volumes:
+  auth_db_data:
+  estate_db_data:

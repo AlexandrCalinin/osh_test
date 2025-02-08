@@ -8,7 +8,7 @@ from estate_service.app.api.schemas.property_schemas import PropertyCreate, Prop
     PaginatedResponse, PropertyDelete
 from estate_service.app.api.services import (
     upload_instance_to_db, get_instance_by_id_db,
-    update_instance_db, delete_instance_db, get_properties_paginated
+    update_instance_db, delete_instance_db, get_paginated_properties
 )
 from estate_service.app.database.models import Property
 
@@ -78,12 +78,12 @@ async def delete_property(property_id: UUID, session: Session = Depends(get_db))
         return {"error": f"The property wasn't deleted due to an error: {e}"}
 
 
-@router.get("/", status_code=200, response_model=PaginatedResponse)
+@router.get("/properties", status_code=200, response_model=PaginatedResponse)
 async def get_properties_paginated(session: Session = Depends(get_db), page: int = 1,
                                    per_page: int  = 10) -> PaginatedResponse:
     """Get all properties paginated from database"""
     try:
-        response = get_properties_paginated(session=session, page=page, per_page=per_page)
+        response = get_paginated_properties(session=session, page=page, per_page=per_page)
 
         if response["data"]:
             return response

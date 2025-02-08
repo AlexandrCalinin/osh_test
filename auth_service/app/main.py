@@ -1,15 +1,14 @@
 import uvicorn
+import sys
 
+from loguru import logger
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
-
-from auth_service.app.api.routers import router
-
+from sqlalchemy.exc import SQLAlchemyError
 
 app = FastAPI(swagger_ui_parameters={"syntaxHighlight.theme": "obsidian"})
 
-app.include_router(router)
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,6 +26,18 @@ async def custom_swagger_ui_html():
         title="API docs"
     )
 
+logger.remove()
+logger.add(sys.stderr, format="{time} {level} {message}", level="INFO")
+logger.add("auth_service.log", format="{time} {level} {message}", level="DEBUG")
+
 
 if __name__ == "__main__":
-    uvicorn.run("auth_service.app.main:app", host="127.0.0.1", port=8001, reload=True)
+    try:
+        logger.info("Auth service is starting...")
+        uvicorn.run("auth_service.app.main:app", host="127.0.0.1", port=8001, reload=True)
+    except OSError as os_error:
+        logger.critical(f"Server startup failed: {os_error.strerror} (Code: {os_error.errno})", exc_info=True)
+    except SQLAlchemyError as db_error:
+        logger.critical(f"Database connection failed: {str(db_error)}", exc_info=True)
+    except Exception as unknown_error:
+        logger.critical(f"Unexpected error: {str(unknown_error)}", exc_info=True)
