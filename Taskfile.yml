@@ -1,0 +1,25 @@
+version: "3"
+
+tasks:
+  # commands for db-estate
+  db-estate-up:
+    cmds:
+      - alembic -c estate_service/app/database/migrations/alembic.ini upgrade head
+  db-estate-down:
+    cmds:
+      - alembic -c estate_service/app/database/migrations/alembic.ini downgrade -1
+  db-estate-revision:
+    cmds:
+      - alembic -c estate_service/app/database/migrations/alembic.ini revision --autogenerate -m "{{.CLI_ARGS}}"
+
+
+  # commands for db-auth
+  db-auth-up:
+    cmds:
+      - alembic -c auth_service/app/database/migrations/alembic.ini upgrade head
+  db-auth-down:
+    cmds:
+      - alembic -c auth_service/app/database/migrations/alembic.ini downgrade -1
+  db-auth-revision:
+    cmds:
+      - alembic -c auth_service/app/database/migrations/alembic.ini revision --autogenerate -m "{{.CLI_ARGS}}"
