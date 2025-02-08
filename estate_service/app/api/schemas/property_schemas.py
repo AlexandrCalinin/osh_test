@@ -27,6 +27,10 @@ class PropertyUpdate(BaseModel):
     square: Optional[int] = None
 
 
+class PropertyDelete(BaseModel):
+    id: UUID
+
+
 class PropertyResponse(BaseModel):
     id: UUID
     name: str

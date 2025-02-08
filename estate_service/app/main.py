@@ -7,12 +7,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
 from sqlalchemy.exc import SQLAlchemyError
 
-from estate_service.app.api.routers import router
+from estate_service.app.api.routers.properties import router as properties_router
+from estate_service.app.api.routers.rooms import router as rooms_router
 
 
 app = FastAPI(swagger_ui_parameters={"syntaxHighlight.theme": "obsidian"})
 
-app.include_router(router)
+app.include_router(properties_router)
+app.include_router(rooms_router)
 
 app.add_middleware(
     CORSMiddleware,

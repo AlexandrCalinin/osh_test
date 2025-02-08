@@ -16,7 +16,7 @@ class Property(Base):
     price = Column("price", Float, nullable=False)
     square = Column("square", Integer(), nullable=False)
 
-    rooms = relationship("Room", back_populates="Property")
+    rooms = relationship("Room", back_populates="property", cascade="all, delete")
 
 
 class Room(Base):
