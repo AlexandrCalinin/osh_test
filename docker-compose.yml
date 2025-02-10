@@ -10,12 +10,11 @@ services:
     env_file:
       - .env
     environment:
+      - PYTHONPATH=/auth_service
       - ENV=development
       - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME_AUTH}
     depends_on:
       - auth_db
-    volumes:
-      - ./auth_service/app:/app
 
   auth_db:
     image: postgres:15
@@ -39,12 +38,11 @@ services:
     env_file:
       - .env
     environment:
+      - PYTHONPATH=/estate_service
       - ENV=development
       - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME_ESTATE}
     depends_on:
       - estate_db
-    volumes:
-      - ./estate_service/app:/app
 
   estate_db:
     image: postgres:15

@@ -1,17 +1,14 @@
 FROM python:3.13-slim
 
-WORKDIR /app
+WORKDIR /estate_service
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Copy requirements.txt from the estate_service directory
-COPY estate_service/requirements.txt .
+COPY ./estate_service /estate_service/estate_service
 
-RUN pip install --no-cache-dir --upgrade -r requirements.txt
+ENV PYTHONPATH=/estate_service
 
-# Copy the app code
-COPY estate_service/app/ /app
+RUN pip install --no-cache-dir --upgrade -r estate_service/requirements.txt
 
-EXPOSE 8000
 CMD ["uvicorn", "estate_service.app.main:app", "--host", "0.0.0.0", "--port", "8000"]

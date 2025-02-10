@@ -1,17 +1,14 @@
 FROM python:3.13-slim
 
-WORKDIR /app
+WORKDIR /auth_service
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Copy requirements.txt from the auth_service directory
-COPY auth_service/requirements.txt .
+COPY ./auth_service /auth_service/auth_service
 
-RUN pip install --no-cache-dir --upgrade -r requirements.txt
+ENV PYTHONPATH=/auth_service
 
-# Copy the app code
-COPY auth_service/app/ /app
+RUN pip install --no-cache-dir --upgrade -r auth_service/requirements.txt
 
-EXPOSE 8001
 CMD ["uvicorn", "auth_service.app.main:app", "--host", "0.0.0.0", "--port", "8001"]

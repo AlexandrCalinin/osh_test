@@ -1,86 +1,54 @@
-Проект: OSH-test
+# **Project: OSH-test**
 
-auth_service – сервис аутентификации (регистрация, авторизация пользователей)
-estate_service – сервис управления недвижимостью (CRUD-операции для объектов недвижимости и комнат)
-Оба сервиса используют FastAPI для создания REST API, SQLAlchemy для работы с базой данных и PostgreSQL в качестве СУБД. Проект контейнеризован с использованием Docker и Docker Compose.
+* auth_service – Authentication service (user registration and authorization).
+* estate_service – Real estate management service (CRUD operations for properties and rooms).
 
-Структура проекта
+Both services use FastAPI to create a REST API, SQLAlchemy for database interactions, and 
+PostgreSQL as the DBMS. The project is containerized using Docker and Docker Compose.
 
-├── auth_service
-│   ├── app
-│   │   ├── api
-│   │   │   ├── routers.py
-│   │   │   └── schemas.py
-│   │   ├── database
-│   │   │   ├── database.py
-│   │   │   ├── migrations
-│   │   │   │   └── ... (файлы Alembic)
-│   │   │   └── models.py
-│   │   └── main.py
-│   ├── Dockerfile
-│   └── Readme.md
-├── estate_service
-│   ├── app
-│   │   ├── api
-│   │   │   ├── routers
-│   │   │   │   ├── properties.py
-│   │   │   │   └── rooms.py
-│   │   │   └── schemas
-│   │   │       ├── property_schemas.py
-│   │   │       └── room_schemas.py
-│   │   ├── database
-│   │   │   ├── database.py
-│   │   │   ├── migrations
-│   │   │   │   └── ... (файлы Alembic)
-│   │   │   └── models.py
-│   │   ├── main.py
-│   │   └── estate_service.log
-│   ├── Dockerfile
-│   └── Readme.md
-├── docker-compose.yml
-├── requirements.txt
-└── Taskfile.yml
-Предварительные требования
-Docker и Docker Compose должны быть установлены на вашей машине.
-В корне проекта должен находиться файл .env с необходимыми переменными окружения (например, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME_AUTH, DB_NAME_ESTATE).
-Запуск проекта
-Сборка и запуск контейнеров
+## **Prerequisites**
+1. Docker and Docker Compose must be installed on your machine.
+2. The project's root directory should contain a .env file with the required environment 
+variables (e.g., DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME_AUTH, DB_NAME_ESTATE).
 
-Из корневой директории проекта выполните:
+## **Starting the Project**
 
-docker compose up --build
-Доступ к сервисам
+Build and Run Containers
+From the project root directory, execute: ***docker compose up --build***
 
-auth_service будет доступен по адресу: http://localhost:8001
-estate_service будет доступен по адресу: http://localhost:8000
-Описание сервисов
-auth_service
-Сервис аутентификации реализует API для регистрации и авторизации пользователей.
-Использует PostgreSQL (контейнер auth_db) в качестве базы данных.
+## **Service Access**
 
-estate_service
-Сервис управления недвижимостью предоставляет CRUD-операции для объектов недвижимости и комнат.
-Использует PostgreSQL (контейнер estate_db) для хранения данных.
+auth_service will be available at: http://localhost:8001
+estate_service will be available at: http://localhost:8000
 
-Технологии
-FastAPI – создание REST API.
-SQLAlchemy – ORM для работы с базой данных.
-PostgreSQL – СУБД.
-Docker и Docker Compose – контейнеризация и оркестрация сервисов.
-Alembic – миграции базы данных.
-Миграции базы данных
-Миграционные файлы находятся в каталогах migrations каждого сервиса. Используйте Alembic для управления схемой базы данных.
+## **Service Descriptions**:
 
-Логи
-Логи сервиса estate_service записываются в файл estate_service/estate_service.log.
+**auth_service**
+The authentication service provides an API for user registration and authorization.
+Uses PostgreSQL (container auth_db) as the database.
 
-Дополнительные команды
+**estate_service**
+The real estate management service provides CRUD operations for properties and rooms.
+Uses PostgreSQL (container estate_db) for data storage.
 
-Остановка контейнеров:
+
+## **Technologies**
+
+FastAPI – Creating REST APIs.
+SQLAlchemy – ORM for database interactions.
+PostgreSQL – Database management system.
+Docker and Docker Compose – Containerization and orchestration of services.
+Alembic – Database migrations.
+Database Migrations
+Migration files are located in the migrations directories of each service. Use Alembic to manage database schemas.
+
+## **Logs**
+Logs for the estate_service are recorded in the file:
+estate_service/estate_service.log
+
+## **Additional Commands**
+**Stop containers:**
 docker compose down
 
-Запуск контейнеров в фоновом режиме:
-docker compose up -d --build
-
-Для удобства можно использовать Taskfile, из которого можно запускаьт команды:
-task <название команды>
+**Run commands from Taskfile**
+task <command_name>
